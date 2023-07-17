@@ -1,0 +1,39 @@
+applications: 
+  - name: netfix
+    namespace: bramptonargo
+    additionalLabels: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    project: jandubalm
+    source:
+      repoURL: git@github.com:KaminiSharma28/brampton.git
+      targetRevision: Development
+      path: .
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: bramtonargo
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+    syncOptions: 
+    - CreateNamespace=true 
+
+projects: 
+  - name: jandubalm
+    namespace: bramptonargo
+    additionalLabels: {}
+    additionalAnnotations: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    description: This is sexy DMP project
+    sourceRepos:
+    - git@github.com:KaminiSharma28/brampton.git
+    destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+    namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
